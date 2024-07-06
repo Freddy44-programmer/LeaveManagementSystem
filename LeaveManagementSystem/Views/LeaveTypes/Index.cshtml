@@ -1,0 +1,49 @@
+﻿@model IEnumerable<LeaveManagementSystem.Data.LeaveType>
+
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead class="table-dark">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.NumberOfDays)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.NumberOfDays)
+            </td>
+            <td>
+                    <div class="btn-group">
+                        <h1 data-bs-toggle="dropdown" aria-expanded="false">
+                            &#x2022;&#x2022;&#x2022;
+                        </h1>
+                        <ul class="dropdown-menu text-center">
+                            <li ><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></li>
+                            <li><a asp-action="Details" asp-route-id="@item.Id">Details</a></li>
+                            <li><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></li>
+                            
+                        </ul>
+                    </div>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
