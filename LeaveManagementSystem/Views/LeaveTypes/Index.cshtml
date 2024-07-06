@@ -4,10 +4,10 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+
 
 <p>
-    <a asp-action="Create">Create New</a>
+    <a asp-action="Create" class="btn btn-primary">Create New Leave</a>
 </p>
 <table class="table">
     <thead class="table-dark">
@@ -36,9 +36,9 @@
                             &#x2022;&#x2022;&#x2022;
                         </h1>
                         <ul class="dropdown-menu text-center">
-                            <li ><a asp-action="Edit" asp-route-id="@item.Id">Edit</a></li>
-                            <li><a asp-action="Details" asp-route-id="@item.Id">Details</a></li>
-                            <li><a asp-action="Delete" asp-route-id="@item.Id">Delete</a></li>
+                            <li ><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning mb-1">Edit</a></li>
+                            <li><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info mb-1">Details</a></li>
+                            <li><a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a></li>
                             
                         </ul>
                     </div>
