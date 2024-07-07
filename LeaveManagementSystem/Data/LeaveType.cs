@@ -7,6 +7,8 @@ namespace LeaveManagementSystem.Data
     
         public int Id {  get; set; }
         public string Name { get; set; }
+
+        [Display(Name = "Number of Days")]
         public int NumberOfDays { get; set; }
 
     }

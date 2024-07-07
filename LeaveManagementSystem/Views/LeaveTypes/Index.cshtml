@@ -1,4 +1,5 @@
-﻿@model IEnumerable<LeaveManagementSystem.Data.LeaveType>
+﻿
+@model IEnumerable<LeaveTypeReadOnlyVM>
 
 @{
     ViewData["Title"] = "Index";
@@ -6,7 +7,7 @@
 
 
 
-<p>
+<p class="mt-5">
     <a asp-action="Create" class="btn btn-primary">Create New Leave</a>
 </p>
 <table class="table">
@@ -32,13 +33,13 @@
             </td>
             <td>
                     <div class="btn-group">
-                        <h1 data-bs-toggle="dropdown" aria-expanded="false">
+                        <h5 data-bs-toggle="dropdown" aria-expanded="false">
                             &#x2022;&#x2022;&#x2022;
-                        </h1>
-                        <ul class="dropdown-menu text-center">
-                            <li ><a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-warning mb-1">Edit</a></li>
-                            <li><a asp-action="Details" asp-route-id="@item.Id" class="btn btn-info mb-1">Details</a></li>
-                            <li><a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-danger">Delete</a></li>
+                        </h5>
+                        <ul class="dropdown-menu dropdown-menu-dark text-center">
+                            <li><a asp-action="Edit" asp-route-id="@item.Id" class="dropdown-item">Edit</a></li>
+                            <li><a asp-action="Details" asp-route-id="@item.Id" class="dropdown-item">Details</a></li>
+                            <li><a asp-action="Delete" asp-route-id="@item.Id" class="dropdown-item">Delete</a></li>
                             
                         </ul>
                     </div>
