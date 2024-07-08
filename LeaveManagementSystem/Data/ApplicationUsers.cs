@@ -10,6 +10,8 @@ namespace LeaveManagementSystem.Data
 
         public string LastName { get; set; } = "";
 
+        public DateOnly DateOfBirth { get; set; }
+
         public DateTime CreatedAt { get; set; }
 
     }
