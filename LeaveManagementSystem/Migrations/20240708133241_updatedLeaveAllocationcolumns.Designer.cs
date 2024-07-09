@@ -4,6 +4,7 @@ using LeaveManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeaveManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240708133241_updatedLeaveAllocationcolumns")]
+    partial class updatedLeaveAllocationcolumns
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -206,19 +209,19 @@ namespace LeaveManagementSystem.Migrations
                     b.HasData(
                         new
                         {
-                            Id = "f03883d7-4fc1-4f65-9521-28c81dddf316",
+                            Id = "40f2092e-e573-4962-9f5e-dc0cee44c609",
                             Name = "Administrator",
                             NormalizedName = "Administrator"
                         },
                         new
                         {
-                            Id = "298544eb-79ff-4b3c-b261-96d65bd1d86f",
+                            Id = "6491ea4b-1435-4c10-9ac9-c740ab447792",
                             Name = "Supervisor",
                             NormalizedName = "Supervisor"
                         },
                         new
                         {
-                            Id = "3671fbe4-732e-4f91-8f14-72f7667e860e",
+                            Id = "4e957678-9875-4264-8239-162cefb21f15",
                             Name = "Employee",
                             NormalizedName = "Employee"
                         });

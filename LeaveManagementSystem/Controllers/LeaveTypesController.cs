@@ -3,9 +3,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using LeaveManagementSystem.Models.LeaveTypes;
 using AutoMapper;
-using LeaveManagementSystem.Services;
 using Microsoft.AspNetCore.Authorization;
 using LeaveManagementSystem.Common;
+using LeaveManagementSystem.Services.LeaveTypes;
 
 namespace LeaveManagementSystem.Controllers
 {

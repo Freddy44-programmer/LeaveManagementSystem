@@ -19,6 +19,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.WebUtilities;
 using Microsoft.Extensions.Logging;
+using LeaveManagementSystem.Services.LeaveAllocations;
 
 namespace LeaveManagementSystem.Areas.Identity.Pages.Account
 {
@@ -26,18 +27,21 @@ namespace LeaveManagementSystem.Areas.Identity.Pages.Account
     {
         private readonly SignInManager<ApplicationUsers> _signInManager;
         private readonly UserManager<ApplicationUsers> _userManager;
+        private readonly ILeaveAllocationsService _leaveAllocationsService;
         private readonly IUserStore<ApplicationUsers> _userStore;
         private readonly IUserEmailStore<ApplicationUsers> _emailStore;
         private readonly ILogger<RegisterModel> _logger;
         private readonly IEmailSender _emailSender;
 
         public RegisterModel(
+            ILeaveAllocationsService leaveAllocationsService,
             UserManager<ApplicationUsers> userManager,
             IUserStore<ApplicationUsers> userStore,
             SignInManager<ApplicationUsers> signInManager,
             ILogger<RegisterModel> logger,
             IEmailSender emailSender)
         {
+            this._leaveAllocationsService = leaveAllocationsService;
             _userManager = userManager;
             _userStore = userStore;
             _emailStore = GetEmailStore();
@@ -156,6 +160,7 @@ namespace LeaveManagementSystem.Areas.Identity.Pages.Account
                     await _userManager.AddToRoleAsync(user, "Employee");
 
                     var userId = await _userManager.GetUserIdAsync(user);
+                    await _leaveAllocationsService.AllocateLeave(userId);
                     var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
                     code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
                     var callbackUrl = Url.Page(

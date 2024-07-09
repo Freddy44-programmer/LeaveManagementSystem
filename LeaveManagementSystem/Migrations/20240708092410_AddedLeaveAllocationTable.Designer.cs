@@ -4,6 +4,7 @@ using LeaveManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace LeaveManagementSystem.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240708092410_AddedLeaveAllocationTable")]
+    partial class AddedLeaveAllocationTable
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -109,14 +112,14 @@ namespace LeaveManagementSystem.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("Days")
-                        .HasColumnType("int");
-
                     b.Property<string>("EmployeeId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("LeaveTypeId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("NumberOfDays")
                         .HasColumnType("int");
 
                     b.Property<int>("PeriodId")
@@ -202,26 +205,6 @@ namespace LeaveManagementSystem.Migrations
                         .HasFilter("[NormalizedName] IS NOT NULL");
 
                     b.ToTable("AspNetRoles", (string)null);
-
-                    b.HasData(
-                        new
-                        {
-                            Id = "f03883d7-4fc1-4f65-9521-28c81dddf316",
-                            Name = "Administrator",
-                            NormalizedName = "Administrator"
-                        },
-                        new
-                        {
-                            Id = "298544eb-79ff-4b3c-b261-96d65bd1d86f",
-                            Name = "Supervisor",
-                            NormalizedName = "Supervisor"
-                        },
-                        new
-                        {
-                            Id = "3671fbe4-732e-4f91-8f14-72f7667e860e",
-                            Name = "Employee",
-                            NormalizedName = "Employee"
-                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -343,12 +326,12 @@ namespace LeaveManagementSystem.Migrations
                         .IsRequired();
 
                     b.HasOne("LeaveManagementSystem.Data.LeaveType", "LeaveType")
-                        .WithMany("LeaveAllocations")
+                        .WithMany()
                         .HasForeignKey("LeaveTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("LeaveManagementSystem.Data.Period", "Period")
+                    b.HasOne("LeaveManagementSystem.Data.Period", "period")
                         .WithMany()
                         .HasForeignKey("PeriodId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -358,7 +341,7 @@ namespace LeaveManagementSystem.Migrations
 
                     b.Navigation("LeaveType");
 
-                    b.Navigation("Period");
+                    b.Navigation("period");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
@@ -410,11 +393,6 @@ namespace LeaveManagementSystem.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("LeaveManagementSystem.Data.LeaveType", b =>
-                {
-                    b.Navigation("LeaveAllocations");
                 });
 #pragma warning restore 612, 618
         }
