@@ -23,6 +23,7 @@
     <Folder Include="Areas\Identity\Pages\Employee\" />
     <Folder Include="Areas\Identity\Pages\Supervisor\" />
     <Folder Include="Data\Migrations\" />
+    <Folder Include="Views\LeaveRequests\" />
   </ItemGroup>
 
 </Project>

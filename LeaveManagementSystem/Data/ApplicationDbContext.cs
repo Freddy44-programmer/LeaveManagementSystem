@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using LeaveManagementSystem.Data.Configurations;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 
 namespace LeaveManagementSystem.Data
 {
@@ -17,21 +19,16 @@ namespace LeaveManagementSystem.Data
 
         public DbSet<Period> Periods { get; set; }
 
+        public DbSet<LeaveRequestStatus> LeaveRequestStatuses{ get; set; }
+
+        public DbSet<LeaveRequest> LeaveRequests { get; set; }
+
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
-
-            var administrator = new IdentityRole("Administrator");
-            administrator.NormalizedName = "Administrator";
-
-            var employee = new IdentityRole("Employee");
-            employee.NormalizedName = "Employee";
-
-            var supervisor = new IdentityRole("Supervisor");
-            supervisor.NormalizedName = "Supervisor";
-
-
-            builder.Entity<IdentityRole>().HasData(administrator, supervisor, employee);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
     }
+
+   
 }
