@@ -12,7 +12,7 @@ namespace LeaveManagementSystem.Models.LeaveAllocations
         [Display(Name = "Last Name")]
         public string Lastname { get; set; } = string.Empty ;
 
-        [Display(Name = "Email Address")]
+        [Display(Name = "Email")]
         public string Email { get; set; } = string.Empty;
     }
 }

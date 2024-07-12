@@ -42,7 +42,7 @@
 
 
             <div class="form-floating mb-3">
-                <input asp-for="Input.DateOfBirth" class="form-control" autocomplete="dateofbirth" aria-required="true" placeholder="" />
+                <input asp-for="Input.DateOfBirth" class="form-control" autocomplete="dateofbirth" aria-required="true" placeholder="" id="DateOfBirth" />
                 <label asp-for="Input.DateOfBirth">Date Of Birth</label>
                 <span asp-validation-for="Input.DateOfBirth" class="text-danger"></span>
             </div>
@@ -65,4 +65,15 @@
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />
+
+    <script>
+        $(function () {
+            $("#DateOfBirth").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true,
+                yearRange: "1970:+0"
+            });
+        });
+    </script>
 }

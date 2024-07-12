@@ -12,6 +12,12 @@ namespace LeaveManagementSystem.Data
             : base(options)
         {
         }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
+        }
         public DbSet<LeaveType> LeaveTypes { get; set; }
         public DbSet<ApplicationUsers> ApplicationUsers { get; set; }
 
@@ -23,11 +29,7 @@ namespace LeaveManagementSystem.Data
 
         public DbSet<LeaveRequest> LeaveRequests { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder builder)
-        {
-            base.OnModelCreating(builder);
-            builder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
-        }
+        
     }
 
    

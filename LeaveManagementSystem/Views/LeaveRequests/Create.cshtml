@@ -19,7 +19,7 @@
             <br />
             <div class="form-group">
                 <label asp-for="EndDate" class="control-label"></label>
-                <input asp-for="EndDate" class="form-control" />
+                <input asp-for="EndDate" class="form-control"  />
                 <span asp-validation-for="EndDate" class="text-danger"></span>
             </div>
             <br />
@@ -43,4 +43,20 @@
 </div>
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+
+    <script>
+        $(function () {
+            $("#StartDate").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true
+
+            });
+            $("#EndDate").datepicker({
+                dateFormat: 'yy-mm-dd',
+                changeMonth: true,
+                changeYear: true
+            });
+        });
+    </script>
 }

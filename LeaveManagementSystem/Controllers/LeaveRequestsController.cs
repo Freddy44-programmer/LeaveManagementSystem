@@ -2,6 +2,7 @@
 using LeaveManagementSystem.Services.LeaveRequests;
 using LeaveManagementSystem.Services.LeaveTypes;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 
@@ -13,15 +14,17 @@ public class LeaveRequestsController(ILeaveTypesService _leaveTypesService, ILea
     // Employee View requests
     public async Task<IActionResult> Index()
     {
-        return View();
+        var model = await _leaveRequestsService.GetEmployeeLeaveRequests();
+        return View(model);
     }
 
 
     // Employee Create requests
-    public async Task<IActionResult> Create()
+    public async Task<IActionResult> Create(int? leaveTypeId)
     {
+
         var leaveTypes = await _leaveTypesService.GetAll();
-        var leaveTypesList = new SelectList(leaveTypes, "Id", "Name");
+        var leaveTypesList = new SelectList(leaveTypes, "Id", "Name",leaveTypeId);
         var model = new LeaveRequestCreateVM
         {
            StartDate = DateOnly.FromDateTime(DateTime.Now),
@@ -42,12 +45,14 @@ public class LeaveRequestsController(ILeaveTypesService _leaveTypesService, ILea
         // Validate that the days don't exceed the allocation
         if(await _leaveRequestsService.RequestDatesExceedAllocation(model))
         {
-            ModelState.AddModelError(string.Empty, "You have exceeded your allocation");
+            ModelState.AddModelError(string.Empty, "You have exceeded your allocation.");
             ModelState.AddModelError(nameof(model.EndDate), "The number of days requested is invalid.");
         }
         if (ModelState.IsValid)
         {
             await _leaveRequestsService.CreateLeaveRequest(model);
+            return RedirectToAction(nameof(Index));
+
         }
 
         var leaveTypes = await _leaveTypesService.GetAll();
@@ -59,24 +64,28 @@ public class LeaveRequestsController(ILeaveTypesService _leaveTypesService, ILea
     // Employee Cancel requests
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Cancel( int leaveRequestId)
+    public async Task<IActionResult> Cancel(int id)
     {
-        return View();
+        await _leaveRequestsService.CancelLeaveRequest(id);
+        return RedirectToAction(nameof(Index));
     }
 
 
 
     // Admin/Super review request
+    [Authorize(Policy = "AdminSupervisorOnly")]
     public async Task<IActionResult> ListRequests()
     {
-        return View();
+        var model = await _leaveRequestsService.AdminGetAllLeaveRequests();
+        return View(model);
     }
 
 
     // Admin/Super review request
-    public async Task<IActionResult> Review(int leaveRequestId)
+    public async Task<IActionResult> Review(int id)
     {
-        return View();
+       var model = await _leaveRequestsService.GetLeaveRequestForReview(id);
+        return View(model);
     }
 
 
@@ -84,8 +93,9 @@ public class LeaveRequestsController(ILeaveTypesService _leaveTypesService, ILea
     // Admin/Super review request
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Review(/*Use View Model*/)
+    public async Task<IActionResult> Review(int id, bool approved)
     {
-        return View();
+       await _leaveRequestsService.ReviewLeaveRequest(id, approved);
+        return RedirectToAction(nameof(ListRequests));
     }
 }
