@@ -1,15 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Rendering;
+﻿using LeaveManagementSystem.Data;
 using Microsoft.EntityFrameworkCore;
-using LeaveManagementSystem.Data;
-using LeaveManagementSystem.Common;
-using Microsoft.AspNetCore.Authorization;
 
-namespace LeaveManagementSystem.Controllers
+namespace LeaveManagementSystem.Web.Controllers
 {
     [Authorize(Roles = Roles.Administrator)]
     public class PeriodsController : Controller

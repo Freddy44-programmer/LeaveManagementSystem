@@ -1,25 +1,21 @@
 ﻿
-using Microsoft.AspNetCore.Mvc;
+using LeaveManagementSystem.Application.Models.LeaveTypes;
+using LeaveManagementSystem.Application.Services.LeaveTypes;
 using Microsoft.EntityFrameworkCore;
-using LeaveManagementSystem.Models.LeaveTypes;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
-using LeaveManagementSystem.Common;
-using LeaveManagementSystem.Services.LeaveTypes;
 
-namespace LeaveManagementSystem.Controllers
+namespace LeaveManagementSystem.Web.Controllers
 {
     [Authorize(Roles = Roles.Administrator)]
-    public class LeaveTypesController(ILeaveTypesService _leaveTypesService) : Controller
+    public class LeaveTypesController(ILeaveTypesService _leaveTypesService, ILogger<LeaveTypesController> _logger) : Controller
     {
-      
+
         private const string NameExistsValidationMessage = "This leave Type already exists";
-      
+
 
         // GET: LeaveTypes
         public async Task<IActionResult> Index()
         {
-           
+            _logger.LogInformation("Loading Leave Types");
             var viewData = await _leaveTypesService.GetAll();
             return View(viewData);
         }
@@ -34,7 +30,7 @@ namespace LeaveManagementSystem.Controllers
             {
                 return NotFound();
             }
-            var leaveType =await _leaveTypesService.Get<LeaveTypeReadOnlyVM>(id.Value);
+            var leaveType = await _leaveTypesService.Get<LeaveTypeReadOnlyVM>(id.Value);
 
             if (leaveType == null)
             {
@@ -63,21 +59,23 @@ namespace LeaveManagementSystem.Controllers
             // Adding custom validation and model state error
             if (await _leaveTypesService.CheckIfLeaveTypeNameExists(leaveTypeCreate.Name))
             {
-                ModelState.AddModelError(nameof(leaveTypeCreate.Name), NameExistsValidationMessage);
+                ModelState.AddModelError(nameof(leaveTypeCreate.Name), "This leave type already exists");
             }
 
             if (ModelState.IsValid)
             {
-               await _leaveTypesService.Create(leaveTypeCreate);
+               
+                await _leaveTypesService.Create(leaveTypeCreate);
                 return RedirectToAction(nameof(Index));
             }
+            _logger.LogWarning("Leave Type attempt failed!");
             return View(leaveTypeCreate);
         }
 
 
 
 
-  
+
         // GET: LeaveTypes/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -138,7 +136,7 @@ namespace LeaveManagementSystem.Controllers
 
 
 
-       
+
         // GET: LeaveTypes/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
@@ -161,11 +159,11 @@ namespace LeaveManagementSystem.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-          
+
             await _leaveTypesService.Remove(id);
             return RedirectToAction(nameof(Index));
         }
 
-   
+
     }
 }
